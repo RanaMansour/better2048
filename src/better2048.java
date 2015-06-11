@@ -8,6 +8,9 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -16,18 +19,56 @@ import java.awt.Color;
 
 
 // make sure you rename this class if you are doing a copy/paste
-public class better2048 extends JComponent{
+public class better2048 extends JComponent implements KeyListener, Runnable{
 
     boolean Win = false;
     boolean Lose = false;
-    int Score = 0;
+    boolean set = false;
+    
     boolean needAddTile = false;
     boolean isFull = false;
+    private int value;
     
+    //background variables
+    int BGXS = 0;
+    int BGXE = 345;
+    int BGYS = 0;
+    int BGYE = 393;
+    int TileWidth = 65;
+    int TileHeight = 65;
+    int TileSpeed = 10;
+    int text = value;
+    private Font Arial;
+    void restart(){
+        b = new int[4][4];
+        int Score = 0;
+        boolean lose = false;        
+    }
+
+    
+
+    
+    
+    
+    //Tile characteristics
+    public static class Tile {
+            int x;
+            int y;
+            int value;
+            
+        public Tile(int value, int x, int y) {
+            this.value = value;
+            this.x = x;
+            this.y = y;
+            
+            
+            
+        }
+    }
     
     // Height and Width of our game
-    static final int WIDTH = 328;
-    static final int HEIGHT = 373;
+    static final int WIDTH = 310;
+    static final int HEIGHT = 393;
     
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
@@ -37,13 +78,18 @@ public class better2048 extends JComponent{
     
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
-    
     int[][] b = new int[4][4];
+    Color for2 = new Color(243, 196, 245);
+    Color for4 = new Color(201, 245, 154);
+    Color for8 = new Color(188, 247, 244);
+    Color for16 = new Color(245, 122, 131);
+    Color for32 = new Color(211, 154, 237);
+    Color for64 = new Color(245, 245, 135);
+    Color for128 = new Color(255, 23, 23);
+
     Color mypink = new Color(153, 57, 108);
     String font = "Arial";
-    int TileWidth = 65;
-    int TileHeight = 65;
-    int TileGap = 17;
+    int TileGap = 10;
     
     
     // NOTE: This is already double buffered!(helps with framerate/speed)
@@ -54,12 +100,81 @@ public class better2048 extends JComponent{
         g.clearRect(0, 0, WIDTH, HEIGHT);
         
         // GAME DRAWING GOES HERE 
-        g.setColor(mypink);
-        g.fillRect(0, 0, 328, 373);
-        g.setColor(Color.WHITE);
-        g.fillRect(17, 17, 65, 65);
+
+
+        g.setColor(Color.GRAY);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
         
+        //empty tiles
+        g.setColor(Color.LIGHT_GRAY);
+        //first row of tiles
+        g.fillRoundRect(10, 10, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(85, 10, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(160, 10, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(235, 10, TileWidth, TileHeight, 5, 5);
+        //second row of tiles
+        g.fillRoundRect(10, 85, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(85, 85, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(160, 85, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(235, 85, TileWidth, TileHeight, 5, 5);
+        //third row of tiles
+        g.fillRoundRect(10, 160, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(85, 160, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(160, 160, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(235, 160, TileWidth, TileHeight, 5, 5);
+        //fourth row of tiles
+        g.fillRoundRect(10, 235, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(85, 235, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(160, 235, TileWidth, TileHeight, 5, 5);
+        g.fillRoundRect(235, 235, TileWidth, TileHeight, 5, 5);
+
         
+        for(int j = 0; j < b.length; j++)
+            for(int i = 0; i <b[j].length; i++){
+                g.setColor(Color.BLUE);
+                int x = TileGap + (TileGap + TileWidth) * i;
+                int y = TileGap + (TileGap + TileHeight) * j;                
+                g.fillRect(TileGap + (TileGap + TileWidth) * i, TileGap + (TileGap + TileHeight) * j, TileWidth, TileHeight);
+                
+                
+                if(b[j][i] == 2){
+                    //tile
+                    double power = Math.log(b[j][i])/Math.log(2);
+                    g.setColor(for2);
+                    g.fillRect(i, i, i, text);
+                    //number
+                    g.setColor(Color.BLACK);
+                    g.drawString(""+b[j][i], x, y);
+                }
+                if(b[j][i] == 4){
+                    //tile
+                    double power = Math.log(b[j][i])/Math.log(4);
+                    g.setColor(for4);
+                    g.fillRect(i, i, i, text);
+                    //the number in the tile
+                    g.setColor(Color.BLACK);
+                    g.drawString(""+b[j][i], x, y);
+                }
+                if(b[j][i] == 8){
+                    //tile
+                    double power = Math.log(b[j][i])/Math.log(8);
+                    g.setColor(for8);
+                    g.fillRect(i, i, i, text);
+                    //the number in the tile
+                    g.setColor(Color.BLACK);
+                    g.drawString(""+b[j][i], x, y);
+                }
+                
+                if(b[j][i] == 16){
+                    //tile
+                    double power = Math.log(b[j][i])/Math.log(16);
+                    g.setColor(for16);
+                    g.fillRect(i, i, i, text);
+                    //the number in the tile
+                    g.setColor(Color.BLACK);
+                    g.drawString(""+b[j][i], x, y);
+                }
+            }        
 
         
         // GAME DRAWING ENDS HERE
@@ -68,7 +183,8 @@ public class better2048 extends JComponent{
     
     // The main game loop
     // In here is where all the logic for my game will go
-    public void run()
+
+        public void run()
     {
         // Used to keep track of time used to draw and update the game
         // This is used to limit the framerate later on
@@ -89,6 +205,8 @@ public class better2048 extends JComponent{
 
 
             // GAME LOGIC ENDS HERE 
+
+            
             
             // update the drawing (calls paintComponent)
             repaint();
@@ -131,8 +249,28 @@ public class better2048 extends JComponent{
         frame.pack();
         // shows the window to the user
         frame.setVisible(true);
+        frame.addKeyListener(game);
         
         // starts my game loop
         game.run();
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+//        for(int i = 0; 1 < 4; i++){
+//            if(i == 0)
+//                }
+//    }
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+
 }
