@@ -122,7 +122,11 @@ public class better2048 extends JPanel{
         int value = tile.value;
         int xOffset = offsetCoors(x);
         int yOffset = offsetCoors(y);
-        g.fillRoundRect()
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRoundRect(xOffset, yOffset, 65, 65, 14, 14);
+        
+        g.setColor(Color.BLACK);
+        
     
     
     
@@ -141,42 +145,42 @@ public class better2048 extends JPanel{
         
         
         //empty tiles
-        g.setColor(Color.LIGHT_GRAY);
+//        g.setColor(Color.LIGHT_GRAY);
         //first row of tiles
-        g.fillRoundRect(10, 10, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(85, 10, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(160, 10, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(235, 10, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(10, 10, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(85, 10, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(160, 10, TileWidth, TileHeight, 10, 10);
+ //       g.fillRoundRect(235, 10, TileWidth, TileHeight, 10, 10);
         //second row of tiles
-        g.fillRoundRect(10, 85, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(85, 85, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(160, 85, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(235, 85, TileWidth, TileHeight, 10, 10);
+  //      g.fillRoundRect(10, 85, TileWidth, TileHeight, 10, 10);
+ //       g.fillRoundRect(85, 85, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(160, 85, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(235, 85, TileWidth, TileHeight, 10, 10);
         //third row of tiles
-        g.fillRoundRect(10, 160, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(85, 160, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(160, 160, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(235, 160, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(10, 160, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(85, 160, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(160, 160, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(235, 160, TileWidth, TileHeight, 10, 10);
         //fourth row of tiles
-        g.fillRoundRect(10, 235, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(85, 235, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(160, 235, TileWidth, TileHeight, 10, 10);
-        g.fillRoundRect(235, 235, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(10, 235, TileWidth, TileHeight, 10, 10);
+ //       g.fillRoundRect(85, 235, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(160, 235, TileWidth, TileHeight, 10, 10);
+//        g.fillRoundRect(235, 235, TileWidth, TileHeight, 10, 10);
 
         //2D array setup
         
-        b[0][0] = 2;
-        for(int j = 0; j < b.length; j++)
-            for(int i = 0; i <b[j].length; i++){
+//        b[0][0] = 2;
+//        for(int j = 0; j < b.length; j++)
+//            for(int i = 0; i <b[j].length; i++){
 //                g.setColor(Color.BLUE);
-                int x = TileGap + (TileGap + TileWidth) * i;
-                int y = TileGap + (TileGap + TileHeight) * j;                
+//                int x = TileGap + (TileGap + TileWidth) * i;
+//               int y = TileGap + (TileGap + TileHeight) * j;                
 //                g.fillRect(TileGap + (TileGap + TileWidth) * i, TileGap + (TileGap + TileHeight) * j, TileWidth, TileHeight);
                 
                 
-                if(b[j][i] == 2){
+//                if(b[j][i] == 2){
                     //tile
-                    double power = Math.log(b[j][i])/Math.log(2);
+//                    double power = Math.log(b[j][i])/Math.log(2);
                     g.setColor(for2);
 //                    g.fillRect(i, i, i, text);
                     //number
