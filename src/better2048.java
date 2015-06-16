@@ -223,25 +223,38 @@ public class better2048 extends JComponent implements KeyListener, Runnable{
             // GAME LOGIC STARTS HERE 
             public static void Tile(String[] args)
             {
+                //the tile spots array
+                xs = new ArrayList<Integer>();
+                ys = new ArrayLost<Integer>();
                 
-                final int xs = 4;
-                final int ys = 4;
-                int [][] grid = new int [xs][ys]; 
-                
-                Random rndm = new Random();
-                int rndm = 
-
-                
-                
-                //fill the tiles
+                //when spots are empty
                 for(int j 0; j < b.length; j++)
                 for(int i = 0; i < b[j].length; i++)
                 
+                //if sports are empty, add them to the array 
                 if(b[j][i] == 0)
                 {
                     xs.add(i);
                     ys.add(j);
                 }
+                
+                //int [][] grid = new int [xs][ys]; 
+                
+                //generate a random number
+                Random rndm = new Random();
+                int rndm = (int)random(0, xs.size())
+                y = ys.get(rndm);
+                x = xs.get(rndm);
+                
+                //make sure the generated number is only either 2 or 4
+                b[y][x] = random(0, 1) < 0.9 ? 2 : 4;
+
+                
+                
+                //fill the tiles
+                
+                
+                
                 
                 int 
                
