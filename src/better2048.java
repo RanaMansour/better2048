@@ -220,6 +220,8 @@ public class better2048 extends JComponent implements KeyListener, Runnable{
             
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            
+            
 
 
             // GAME LOGIC ENDS HERE 
