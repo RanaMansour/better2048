@@ -11,11 +11,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 /**
  *
  * @author elmar0022
- * lll
  */
 
 
@@ -221,6 +221,34 @@ public class better2048 extends JComponent implements KeyListener, Runnable{
             
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            public static void Tile(String[] args)
+            {
+                
+                final int xs = 4;
+                final int ys = 4;
+                int [][] grid = new int [xs][ys]; 
+                
+                Random rndm = new Random();
+                int rndm = 
+
+                
+                
+                //fill the tiles
+                for(int j 0; j < b.length; j++)
+                for(int i = 0; i < b[j].length; i++)
+                
+                if(b[j][i] == 0)
+                {
+                    xs.add(i);
+                    ys.add(j);
+                }
+                
+                int 
+               
+                
+                
+            }
+            
             
             
 
