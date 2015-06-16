@@ -317,8 +317,84 @@ public class better2048 extends JComponent implements KeyListener, Runnable{
         game.run();
     }
 
+
+    private void moveTiles(Direction dir){
+        boolean canMove = false;
+        int horisontalDirection = 0;
+        int verticalDirection = 0;
+        
+        if(dir == Direction.LEFT){
+            horizontalDirection = -1;
+            for(int i = 0; 0 < xs.size; i++)
+            {
+                for(int j = 0; j < ys.size; j++){
+                    if(!canMove){
+                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                    else{
+                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                }
+            }
+        }
+        if(dir == Direction.RIGHT){
+            horizontalDirection = 1;
+            for(int i = 0; 0 < xs.size; i++)
+            {
+                for(int j = ys - 1; j >= 0; j--){
+                    if(!canMove){
+                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                    else{
+                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                }
+            }
+        }
+        if(dir == Direction.DOWN){
+            verticalDirection = 1;
+            for(int i = 0; 0 < xs.size; i++)
+            {
+                for(int j = 0; j < ys.size; j++){
+                    if(!canMove){
+                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                    else{
+                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                }
+            }
+        }
+        if(dir == Direction.UP){
+            verticalDirection = -1;
+            for(int i = 0; 0 < xs.size; i++)
+            {
+                for(int j = 0; j < ys.size; j++){
+                    if(!canMove){
+                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                    else{
+                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+                    }
+                }
+            }
+        }
+    }
     @Override
     public void keyTyped(KeyEvent e) {
+        
+        if(Keyboard.typed(KeyEvent.VK_LEFT)){
+            moveTiles(Direction.LEFT);
+        }
+        if(Keyboard.typed(KeyEvent.VK_RIGHT)){
+            moveTiles(Direction.RIGHT);
+        }
+        if(Keyboard.typed(KeyEvent.VK_DOWN)){
+            moveTiles(Direction.DOWN);
+        }
+        if(Keyboard.typed(KeyEvent.VK_UP)){
+            moveTiles(Direction.UP);
+        }
     }
 
     @Override
