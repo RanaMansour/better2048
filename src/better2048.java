@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 
 /**
  *
@@ -32,11 +31,7 @@ public class better2048 extends JPanel{
     boolean Full = false;
     private int value;
     
-    //background variables
-    int BGXS = 0;
-    int BGXE = 345;
-    int BGYS = 0;
-    int BGYE = 393;
+    //tile variables
     int TileWidth = 65;
     int TileHeight = 65;
     int TileSpeed = 10;
@@ -44,7 +39,7 @@ public class better2048 extends JPanel{
     private Font Arial;
 
     
-    int[][] b = new int [4][4];
+  //  int[][] b = new int [4][4];
         
 
 
@@ -54,20 +49,20 @@ public class better2048 extends JPanel{
     
     
     //Tile characteristics
-    public static class Tile {
-            int x;
-            int y;
-            int value;
-            
-        public Tile(int value, int x, int y) {
-            this.value = value;
-            this.x = x;
-            this.y = y;
-            
-            
-            
-        }
-    }
+//public static class Tile {
+//            int x;
+//            int y;
+//            int value;
+//            
+//public Tile(int value, int x, int y) {
+//            this.value = value;
+//            this.x = x;
+//            this.y = y;
+//            
+//            
+//            
+//        }
+//    }
     
     // Height and Width of our game
     static final int WIDTH = 310;
@@ -82,17 +77,6 @@ public class better2048 extends JPanel{
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
 
-    Color for2 = new Color(243, 196, 245);
-    Color for4 = new Color(201, 245, 154);
-    Color for8 = new Color(188, 247, 244);
-    Color for16 = new Color(245, 122, 131);
-    Color for32 = new Color(211, 154, 237);
-    Color for64 = new Color(245, 245, 135);
-    Color for128 = new Color(255, 23, 23);
-
-    Color mypink = new Color(153, 57, 108);
-    Font font = new Font("Arial", Font.PLAIN, 30);
-    int TileGap = 10;
     
     
     // NOTE: This is already double buffered!(helps with framerate/speed)
@@ -103,17 +87,26 @@ public class better2048 extends JPanel{
         g.clearRect(0, 0, WIDTH, HEIGHT);
         
         // GAME DRAWING GOES HERE 
-        
+            
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         for(int y = 0; y < 4; y++){
             for(int x = 0; x < 4; x++){
                 drawTile(g, myTiles[x + y * 4], x, y);
+        //score
+        g.setColor(Color.BLACK);
+        g.drawString("Score:" + Score , 140, 350);
+        //game name
+
+        g.fillRoundRect(20, 310, 100, 70, 10, 10);
+        g.setColor(Color.GRAY);
+        g.drawString("2048", 38, 352);
             }
         }
         
     }
     
+
     private void drawTile(Graphics g2, Tile tile, int x, int y){
         Graphics2D g = ((Graphics2D) g2);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -124,24 +117,83 @@ public class better2048 extends JPanel{
         int yOffset = offsetCoors(y);
         g.setColor(Color.LIGHT_GRAY);
         g.fillRoundRect(xOffset, yOffset, 65, 65, 14, 14);
-        
+        Font font = new Font("Arial", Font.PLAIN, value < 100 ? 30 : value < 1000 ? 25);
+        int TileGap = 10;
+        g.setFont(font);
         g.setColor(Color.BLACK);
+        String s = String.valueof(value);
+        
+        final GontMetrics fm = getFontMetrics(font);
+        
+        final int w = fm.stringWidth(s);
+        rinal int h = -(int) fm.getLineMetrics(s, g).getBaseLineOffsets()[2];
+        
+        
+        if(value !=0){
+            g.drawString(s, xOffset + (TileWidth - w) / 2, yOffset + TileHeight - (TileHeight - h) / 2 - 2);
+        }
+        
+        
+        if(Win || Lose){
+            g.setColor(new Color(229, 195, 250));
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+            g.setColor(new Color(206, 144, 245));
+            g.setFont(font);
+            if(Win){
+                g.drawString("YOU WON!", 145, 120);
+                g.drawString("Press ESC to play again :)", 144, 210)
+            }
+            if(Lose){
+                g.drawString("GAME OVER!", 144, 123);
+                g.drawString("YOU LOSE!", 144, 213);
+                g.drawString("Press ESC to play again :)", 144, 303)
+            }
+            
+            
+        }
+        
+        private static int offsetCoors(int arg){
+            return arg * (TileGap + TileWidth) + TileGap;
+        }
+        
+        static class Tile{
+            int value;
+            
+            
+            public Tile(){
+            this(0);    
+            }
+            
+            public Tile(int num){
+                value = num;
+            }
+            
+            public boolean isEmpty(){
+                return value == 0;
+            }
+            
+            public Color TileColor(){
+                switch (value){
+                    case 2: return new Color(243, 196, 245);
+                    case 4: return new Color(201, 245, 154);
+                    case 8: return new Color(188, 247, 244);
+                    case 16: return new Color(245, 122, 131);
+                    case 32: return new Color(211, 154, 237);
+                    case 64: return new Color(245, 245, 135);
+                    case 128: return new Color(255, 23, 23);
+                    case 256: return
+                    case 512: return
+                    case 1024: return
+                    case 2048: return
+                }
+            }
+        }
         
     
     
     
     }
-        
-        
-        g.setFont(font);
-        //score
-        g.setColor(Color.BLACK);
-        g.drawString("Score:" + Score , 140, 350);
-        //game name
 
-        g.fillRoundRect(20, 310, 100, 70, 10, 10);
-        g.setColor(Color.GRAY);
-        g.drawString("2048", 38, 352);
         
         
         //empty tiles
@@ -184,39 +236,39 @@ public class better2048 extends JPanel{
                     g.setColor(for2);
 //                    g.fillRect(i, i, i, text);
                     //number
-                    g.setColor(Color.BLACK);
+//                    g.setColor(Color.BLACK);
                     
-                    g.drawString(""+b[j][i], x+23 , y+43);
-                }
-                if(b[j][i] == 4){
+//                    g.drawString(""+b[j][i], x+23 , y+43);
+//                }
+//                if(b[j][i] == 4){
                     //tile
-                    double power = Math.log(b[j][i])/Math.log(4);
-                    g.setColor(for4);
-                    g.fillRect(i, i, i, text);
+//                    double power = Math.log(b[j][i])/Math.log(4);
+//                    g.setColor(for4);
+//                    g.fillRect(i, i, i, text);
                     //the number in the tile
-                    g.setColor(Color.BLACK);
-                    g.drawString(""+b[j][i], x, y);
-                }
-                if(b[j][i] == 8){
+//                    g.setColor(Color.BLACK);
+//                    g.drawString(""+b[j][i], x, y);
+ //              }
+//                if(b[j][i] == 8){
                     //tile
-                    double power = Math.log(b[j][i])/Math.log(8);
-                    g.setColor(for8);
-                    g.fillRect(i, i, i, text);
+//                    double power = Math.log(b[j][i])/Math.log(8);
+//                    g.setColor(for8);
+//                    g.fillRect(i, i, i, text);
                     //the number in the tile
-                    g.setColor(Color.BLACK);
-                    g.drawString(""+b[j][i], x, y);
-                }
+//                    g.setColor(Color.BLACK);
+//                    g.drawString(""+b[j][i], x, y);
+//                }
                 
-                if(b[j][i] == 16){
+//                if(b[j][i] == 16){
                     //tile
-                    double power = Math.log(b[j][i])/Math.log(16);
-                    g.setColor(for16);
-                    g.fillRect(i, i, i, text);
+//                    double power = Math.log(b[j][i])/Math.log(16);
+//                    g.setColor(for16);
+//                    g.fillRect(i, i, i, text);
                     //the number in the tile
-                    g.setColor(Color.BLACK);
-                    g.drawString(""+b[j][i], x, y);
-                }
-            }        
+//                    g.setColor(Color.BLACK);
+//                    g.drawString(""+b[j][i], x, y);
+//                }
+//            }        
 
 
         
@@ -245,33 +297,33 @@ public class better2048 extends JPanel{
             
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
-            public static void Tile(String[] args)
-            {
+//            public static void Tile(String[] args)
+//            {
                 //the tile spots array
-                xs = new ArrayList<Integer>();
-                ys = new ArrayLost<Integer>();
+ //               xs = new ArrayList<Integer>();
+ //               ys = new ArrayLost<Integer>();
                 
                 //when spots are empty
-                for(int j 0; j < b.length; j++)
-                for(int i = 0; i < b[j].length; i++)
+//                for(int j 0; j < b.length; j++)
+ //               for(int i = 0; i < b[j].length; i++)
                 
                 //if sports are empty, add them to the array 
-                if(b[j][i] == 0)
-                {
-                    xs.add(i);
-                    ys.add(j);
-                }
+//                if(b[j][i] == 0)
+//                {
+//                    xs.add(i);
+//                    ys.add(j);
+//                }
                 
                 //int [][] grid = new int [xs][ys]; 
                 
                 //generate a random number
-                Random rndm = new Random();
-                int rndm = (int)random(0, xs.size())
-                y = ys.get(rndm);
-                x = xs.get(rndm);
+ //               Random rndm = new Random();
+//                int rndm = (int)random(0, xs.size())
+//                y = ys.get(rndm);
+//                x = xs.get(rndm);
                 
                 //make sure the generated number is only either 2 or 4
-                b[y][x] = random(0, 1) < 0.9 ? 2 : 4;
+//                b[y][x] = random(0, 1) < 0.9 ? 2 : 4;
 
                 
                 
@@ -280,7 +332,7 @@ public class better2048 extends JPanel{
                 
                 
                 
-                int 
+//                int 
                
                 
                 
@@ -342,86 +394,86 @@ public class better2048 extends JPanel{
     }
 
 //COMMENT HERE AND DOWN
-    private void moveTiles(Direction dir){
-        boolean canMove = false;
-        int horisontalDirection = 0;
-        int verticalDirection = 0;
+//    private void moveTiles(Direction dir){
+//        boolean canMove = false;
+//        int horisontalDirection = 0;
+//        int verticalDirection = 0;
         
-        if(dir == Direction.LEFT){
-            horizontalDirection = -1;
-            for(int i = 0; 0 < xs.size; i++)
-            {
-                for(int j = 0; j < ys.size; j++){
-                    if(!canMove){
-                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                    else{
-                        move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                }
-            }
-        }
-        if(dir == Direction.RIGHT){
-            horizontalDirection = 1;
-            for(int i = 0; 0 < xs.size; i++)
-            {
-                for(int j = ys - 1; j >= 0; j--){
-                    if(!canMove){
-                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                    else{
-                        move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                }
-            }
-        }
-        if(dir == Direction.DOWN){
-            verticalDirection = 1;
-            for(int i = 0; 0 < xs.size; i++)
-            {
-                for(int j = 0; j < ys.size; j++){
-                    if(!canMove){
-                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                    else{
-                        move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                }
-            }
-        }
-        if(dir == Direction.UP){
-            verticalDirection = -1;
-            for(int i = 0; 0 < xs.size; i++)
-            {
-                for(int j = 0; j < ys.size; j++){
-                    if(!canMove){
-                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                    else{
-                        move(xs, ys, horizontalDirection, verticalDirection, dir);
-                    }
-                }
-            }
-        }
-    }
+//        if(dir == Direction.LEFT){
+  //          horizontalDirection = -1;
+ //           for(int i = 0; 0 < xs.size; i++)
+//            {
+//                for(int j = 0; j < ys.size; j++){
+//                    if(!canMove){
+//                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+//                    }
+//                    else{
+//                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+//                    }
+//                }
+//            }
+ //       }
+//        if(dir == Direction.RIGHT){
+//            horizontalDirection = 1;
+//            for(int i = 0; 0 < xs.size; i++)
+//            {
+ //               for(int j = ys - 1; j >= 0; j--){
+ //                   if(!canMove){
+ //                       canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+  //                  }
+    //                else{
+  //                      move(xs, ys, horizontalDirection, verticalDirection, dir);
+ //                   }
+//                }
+//            }
+//        }
+//        if(dir == Direction.DOWN){
+//            verticalDirection = 1;
+//            for(int i = 0; 0 < xs.size; i++)
+//            {
+//                for(int j = 0; j < ys.size; j++){
+//                    if(!canMove){
+//                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+//                   }
+//                    else{
+//                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+ //                   }
+//                }
+//            }
+//        }
+//        if(dir == Direction.UP){
+//            verticalDirection = -1;
+//            for(int i = 0; 0 < xs.size; i++)
+//            {
+//                for(int j = 0; j < ys.size; j++){
+//                    if(!canMove){
+//                        canMove = move(xs, ys, horizontalDirection, verticalDirection, dir);
+//                    }
+//                    else{
+//                        move(xs, ys, horizontalDirection, verticalDirection, dir);
+//                    }
+//                }
+//            }
+//        }
+//    }
     //COMMENT HERE AND UP
     
     
     @Override
     public void keyTyped(KeyEvent e) {
         
-        if(Keyboard.typed(KeyEvent.VK_LEFT)){
-            moveTiles(Direction.LEFT);
-        }
-        if(Keyboard.typed(KeyEvent.VK_RIGHT)){
-            moveTiles(Direction.RIGHT);
-        }
-        if(Keyboard.typed(KeyEvent.VK_DOWN)){
-            moveTiles(Direction.DOWN);
-        }
-        if(Keyboard.typed(KeyEvent.VK_UP)){
-            moveTiles(Direction.UP);
-        }
+//        if(Keyboard.typed(KeyEvent.VK_LEFT)){
+//            moveTiles(Direction.LEFT);
+//        }
+//        if(Keyboard.typed(KeyEvent.VK_RIGHT)){
+//            moveTiles(Direction.RIGHT);
+  //      }
+  //      if(Keyboard.typed(KeyEvent.VK_DOWN)){
+  //          moveTiles(Direction.DOWN);
+  //      }
+   //     if(Keyboard.typed(KeyEvent.VK_UP)){
+ //           moveTiles(Direction.UP);
+//        }
     }
 
     @Override
@@ -666,9 +718,5 @@ public class better2048 extends JPanel{
     }
     
     
-    
-    
-    
-
 
 }
